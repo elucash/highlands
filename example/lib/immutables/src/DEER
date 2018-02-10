@@ -1,0 +1,6 @@
+# This folder and descriptor simulates "guest" monorepo mounted into `lib/immutables`
+# subfolder
+sources(
+	name = 'immutables',
+	path = '/io/immutables'
+)

@@ -1,0 +1,12 @@
+# Generated using UP src lib/immutables/src
+include_defs('//up/rule_support.py', 'rule_support')
+public = ['PUBLIC']
+root = rule_support.GoalsPath('', '')
+
+# Generated from src/DEER:
+# sources('highlands'...
+highlands = rule_support.GoalsPath('src', '/highlands', alias = {'google/common': '//lib:guava', 'immutables/value': '//lib:immutables', 'immutables/value:annotations': '//lib:immutables_annotations'})
+
+# Generated from lib/immutables/src/DEER:
+# sources('immutables'...
+immutables = rule_support.GoalsPath('lib/immutables/src', '/io/immutables', alias = {})

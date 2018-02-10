@@ -1,0 +1,21 @@
+
+sources(
+	name = 'highlands',
+	path = '/highlands',
+	alias = {
+		'google/common': '//lib:guava',
+		'immutables/value': '//lib:immutables',
+		'immutables/value:annotations': '//lib:immutables_annotations'
+	},
+	link_generated_srcs = [
+		'sample'
+	],
+	link_output_jars = [
+		'sample:jar'
+	],
+)
+
+library_jar('immutables', 'org.immutables:value:2.5.6')
+library_jar('immutables_annotations', 'org.immutables:value:annotations:2.5.6')
+library_jar('guava', 'com.google.guava:guava:22.0')
+library_jar('junit', 'junit:junit:4.12')

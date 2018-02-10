@@ -1,0 +1,5 @@
+java_library(
+	name = 'syntax',
+	srcs = glob(['*.java']),
+	deps = [highlands//'sample']
+)

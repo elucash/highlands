@@ -1,0 +1,20 @@
+
+java_library(
+  name = 'sample',
+  srcs = glob(['*.java']),
+  resources = glob(['*'], excludes = ['*.java']),
+  deps = [
+    highlands//'google/common',
+    highlands//'immutables/value:annotations'
+  ],
+  visibility = public,
+  annotation_processors = ['org.immutables.processor.ProxyProcessor'],
+  annotation_processor_deps = [
+    highlands//'immutables/value'
+  ],
+)
+
+java_binary(
+  name = 'jar',
+  deps = [':sample']
+)

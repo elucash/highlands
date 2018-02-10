@@ -1,0 +1,97 @@
+# Generated using UP src lib/immutables/src
+
+# Generated from src/DEER:
+# library_jar('immutables', 'org.immutables:value:2.5.6'...
+prebuilt_jar(
+  name = 'immutables',
+  binary_jar = ':immutables_jar',
+  source_jar = ':immutables_src',
+	visibility = public,
+	deps = [],
+)
+
+remote_file(
+  name = 'immutables_jar',
+  out = 'value-2.5.6.jar',
+  url = 'https://repo1.maven.org/maven2/org/immutables/value/2.5.6/value-2.5.6.jar',
+  sha1 = '0dfe48bb1214750b932cd59e6953a32a038b74fd'
+)
+
+remote_file(
+  name = 'immutables_src',
+  out = 'value-2.5.6-sources.jar',
+  url = 'https://repo1.maven.org/maven2/org/immutables/value/2.5.6/value-2.5.6-sources.jar',
+  sha1 = '02b7b4d8da9dba792f9e9afc81febd63e4cbc500'
+)
+
+# Generated from src/DEER:
+# library_jar('immutables_annotations', 'org.immutables:value:annotations:2.5.6'...
+prebuilt_jar(
+  name = 'immutables_annotations',
+  binary_jar = ':immutables_annotations_jar',
+  source_jar = ':immutables_annotations_src',
+	visibility = public,
+	deps = [],
+)
+
+remote_file(
+  name = 'immutables_annotations_jar',
+  out = 'value-2.5.6-annotations.jar',
+  url = 'https://repo1.maven.org/maven2/org/immutables/value/2.5.6/value-2.5.6-annotations.jar',
+  sha1 = 'b6a247a2b31a87f0d20d854308e48708b203a0e4'
+)
+
+remote_file(
+  name = 'immutables_annotations_src',
+  out = 'value-2.5.6-annotations-sources.jar',
+  url = 'https://repo1.maven.org/maven2/org/immutables/value/2.5.6/value-2.5.6-annotations-sources.jar',
+  sha1 = '7c2a910c05f63191ada34b193c815bb119e68f6f'
+)
+
+# Generated from src/DEER:
+# library_jar('guava', 'com.google.guava:guava:22.0'...
+prebuilt_jar(
+  name = 'guava',
+  binary_jar = ':guava_jar',
+  source_jar = ':guava_src',
+	visibility = public,
+	deps = [],
+)
+
+remote_file(
+  name = 'guava_jar',
+  out = 'guava-22.0.jar',
+  url = 'https://repo1.maven.org/maven2/com/google/guava/guava/22.0/guava-22.0.jar',
+  sha1 = '3564ef3803de51fb0530a8377ec6100b33b0d073'
+)
+
+remote_file(
+  name = 'guava_src',
+  out = 'guava-22.0-sources.jar',
+  url = 'https://repo1.maven.org/maven2/com/google/guava/guava/22.0/guava-22.0-sources.jar',
+  sha1 = '55edc69e4fc937f4e58e577bb144b824c0ec7c55'
+)
+
+# Generated from src/DEER:
+# library_jar('junit', 'junit:junit:4.12'...
+prebuilt_jar(
+  name = 'junit',
+  binary_jar = ':junit_jar',
+  source_jar = ':junit_src',
+	visibility = public,
+	deps = [],
+)
+
+remote_file(
+  name = 'junit_jar',
+  out = 'junit-4.12.jar',
+  url = 'https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar',
+  sha1 = '2973d150c0dc1fefe998f834810d68f278ea58ec'
+)
+
+remote_file(
+  name = 'junit_src',
+  out = 'junit-4.12-sources.jar',
+  url = 'https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12-sources.jar',
+  sha1 = 'a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa'
+)
