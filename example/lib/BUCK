@@ -6,8 +6,8 @@ prebuilt_jar(
   name = 'immutables',
   binary_jar = ':immutables_jar',
   source_jar = ':immutables_src',
-	visibility = public,
-	deps = [],
+    visibility = public,
+    deps = [],
 )
 
 remote_file(
@@ -30,8 +30,8 @@ prebuilt_jar(
   name = 'immutables_annotations',
   binary_jar = ':immutables_annotations_jar',
   source_jar = ':immutables_annotations_src',
-	visibility = public,
-	deps = [],
+    visibility = public,
+    deps = [],
 )
 
 remote_file(
@@ -54,8 +54,8 @@ prebuilt_jar(
   name = 'guava',
   binary_jar = ':guava_jar',
   source_jar = ':guava_src',
-	visibility = public,
-	deps = [],
+    visibility = public,
+    deps = [],
 )
 
 remote_file(
@@ -78,8 +78,8 @@ prebuilt_jar(
   name = 'junit',
   binary_jar = ':junit_jar',
   source_jar = ':junit_src',
-	visibility = public,
-	deps = [],
+    visibility = public,
+    deps = [],
 )
 
 remote_file(

@@ -12,13 +12,16 @@ Working directory should be target project root, `<src>` are space separated rel
 python3 -m up <src>[ <src1>]...
 ```
 
-In practice it might look like this.
+In practice it might look like this:
 
 ```
-PYTHONPATH=$this_repo_dir python3 -m up src lib/repo/src
+PYTHONPATH="$PYTHONPATH:$this_repo_dir" python3 -m up src lib/repo/src
+# after that we can fetch and build so symlinks will point to real files/folders
+buck fetch //...
+buck build //...
 ```
 
-This is to be invoked every time libraries or linked source projects added or they descriptors are changed. This will create project with specified source folders (for example, `src` and `lib/repo/src` like in the example above).
+This is to be invoked every time libraries or linked source projects added or their descriptors are changed. This will create project with specified source folders (for example, `src` and `lib/repo/src` like in the example above).
 
 Each source folder must contain "bill of materials" file called `DEER`. The special file contains python-DSL to define external downloaded dependencies and information useful for creation of IDE projects.
 
@@ -32,7 +35,7 @@ The system allows for developing a project as a single mono-repo combined from m
 
 ```toml
 [buildfile]
-	includes = //lib/DEFS
+  includes = //lib/DEFS
 ```
 
 ### Examples of DEER file
@@ -40,33 +43,32 @@ The system allows for developing a project as a single mono-repo combined from m
 ```python
 # src/DEER
 sources(
-  # name of the source library, used as variable to resolve sub-libraries
-	# like `highlands//'sample'`
-	name = 'highlands',
-	# additional prefix inside directory, this is mainly so that
-	# we can have have `highlands//'sample'` and not `highlands//'highlands/sample'`
-	# if empty, we will have the latter and this is ok too, in many cases
-	path = '/highlands',
-	# aliases are special ad-hoc aliases to `highlands//'<alias>'` to be resolved
-	# to arbitrary targets
-	alias = {
-		'google/common': '//lib:guava',
-		'immutables/value': '//lib:immutables',
-		'immutables/value:annotations': '//lib:immutables_annotations'
-	},
-	# relative path (prepended with sources.path) to goals
-	# which produce generated sources, so they will be symlinked to .link/src
-	# for easy access in IDE configuration
-	link_generated_srcs = [
-		'sample'
-	],
-	# relative path (prepended with sources.path) to goals which produce
-	# jar files to be symlinked to .link/jar for easy access for IDE project setup
-	link_output_jars = [
-		'sample:jar'
-	],
+    # name of the source library, used as variable to resolve sub-libraries
+  # like `highlands//'sample'`
+  name = 'highlands',
+  # additional prefix inside directory, this is mainly so that
+  # we can have have `highlands//'sample'` and not `highlands//'highlands/sample'`
+  # if empty, we will have the latter and this is ok too, in many cases
+  path = '/highlands',
+  # aliases are special ad-hoc aliases to `highlands//'<alias>'` to be resolved
+  # to arbitrary targets
+  alias = {
+    'immutables/value': '//lib:immutables',
+    'immutables/value:annotations': '//lib:immutables_annotations'
+  },
+  # relative path (prepended with sources.path) to goals
+  # which produce generated sources, so they will be symlinked to .link/src
+  # for easy access in IDE configuration
+  link_generated_srcs = [
+    'sample'
+  ],
+  # relative path (prepended with sources.path) to goals which produce
+  # jar files to be symlinked to .link/jar for easy access for IDE project setup
+  link_output_jars = [
+    'sample:jar'
+  ],
 )
-# Dependency jar, to be referenced as //lib:<name> or can be added to alias, see above
+# Dependency jars, to be referenced as //lib:<name> or can be added to alias, see above
 # the downloaded remote files also symlinked to .link/lib for IDEs
 library_jar('immutables', 'org.immutables:value:2.5.6')
 library_jar('immutables_annotations', 'org.immutables:value:annotations:2.5.6')

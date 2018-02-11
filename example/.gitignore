@@ -1,9 +1,10 @@
+# Deer
+.out/
+.link/
 
 # Jetbrains
 *.iml
 .idea/
-.out/
-.link/
 
 # Local customizations
 *.local
@@ -15,4 +16,5 @@
 .project
 
 # Buck
+.buckd
 buck-out/

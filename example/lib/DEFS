@@ -1,12 +1,39 @@
 # Generated using UP src lib/immutables/src
-include_defs('//up/rule_support.py', 'rule_support')
+def _normalize_path_and_goal(path_goal):
+    pg = path_goal.split(':')
+    if len(pg) == 2:
+        return pg[0] + ':' + pg[1]
+    else:
+        return pg[0] + ':' + pg[0].split('/')[-1]
+
+def _normalize_path_and_goal_dict(d):
+    return {_normalize_path_and_goal(k): _normalize_path_and_goal(v)
+            for k, v in d.iteritems()}
+
+class _GoalsPathVar(object):
+    def __init__(self, root, path, alias = None):
+        self.root = root
+        self.path = path
+        self.alias = _normalize_path_and_goal_dict(alias or {})
+
+    def __floordiv__(self, path_goal):
+        suffix = _normalize_path_and_goal(path_goal)
+        # try to find library var substitution
+        if suffix in self.alias:
+            return self.alias[suffix]
+
+        return str(self) + '/' + suffix
+
+    def __str__(self):
+        return '//' + (self.root + self.path).lstrip('/')
+
 public = ['PUBLIC']
-root = rule_support.GoalsPath('', '')
+root = _GoalsPathVar('', '')
 
 # Generated from src/DEER:
 # sources('highlands'...
-highlands = rule_support.GoalsPath('src', '/highlands', alias = {'google/common': '//lib:guava', 'immutables/value': '//lib:immutables', 'immutables/value:annotations': '//lib:immutables_annotations'})
+highlands = _GoalsPathVar('src', '/highlands', alias = {'google/common': '//lib:guava', 'immutables/value': '//lib:immutables', 'immutables/value:annotations': '//lib:immutables_annotations'})
 
 # Generated from lib/immutables/src/DEER:
 # sources('immutables'...
-immutables = rule_support.GoalsPath('lib/immutables/src', '/io/immutables', alias = {})
+immutables = _GoalsPathVar('lib/immutables/src', '/io/immutables', alias = {})
