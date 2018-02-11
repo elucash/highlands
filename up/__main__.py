@@ -25,7 +25,7 @@ root_dir = Path(os.getcwd())
 def copy_and_load(work_path):
     deer_file = f'{work_path}/DEER'
     source_file = root_dir/deer_file
-    script_dir = root_dir/'.out/deer'
+    script_dir = root_dir/'.out/.deer'
     shutil.rmtree(str(script_dir), ignore_errors=True)
     copied_file = script_dir/deer_file
     copied_file.parent.mkdir(parents=True, exist_ok=True)

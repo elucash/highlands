@@ -174,26 +174,18 @@ def symlink_lib_jars(root_dir: Path):
 
     print(f'\nSymlinking library jars in {link_lib}')
 
-    # we are not adding group to a filename unless
-    # actual name colission happens
-    already_linked_files = set()
-
     def symlink_lib_jar(library, kind):
         file_suffix = jar_suffixes[kind]
         goal = f'{library.name}_{kind}'
         filename = f'{library.maven_coords.filename()}{file_suffix}'
         target = root_dir / f'buck-out/gen/{path}/{goal}/{filename}'
-        # full_path = f'{library.maven_coords.repo_path()}{file_suffix}'
-        full_path = filename
-        if filename in already_linked_files:
-            full_path = f'{library.maven_coords.group}.{filename}'
-        already_linked_files.add(full_path)
 
-        mount = link_dir / full_path
+        lib_jar_name = f'{library.name}{file_suffix}'
+        mount = link_dir / lib_jar_name
         if not mount.parent.exists():
             mount.parent.mkdir(parents=True)
         mount.symlink_to(target, target_is_directory=False)
-        print(f'\t{library.maven_coords}:{kind} -> {link_lib}/{full_path}')
+        print(f'\t{library.maven_coords}:{kind} -> {link_lib}/{lib_jar_name}')
 
     for l in definitions_library:
         print(f'- {l.source_path}/DEER: library_jar({l.name},...')
@@ -282,7 +274,7 @@ root = _GoalsPathVar('', '')
 
 
 def generate_project(root_dir: Path):
-    project_name = project_name=root_dir.name
+    project_name = root_dir.name
 
     generate_idea_libraries(root_dir)
     generate_idea_project(root_dir, project_name)
@@ -297,20 +289,8 @@ def generate_idea_libraries(root_dir: Path):
 
     print(f'\nCreating IJ libraries in {ij_libraries}')
 
-    # we are not adding group to a filename unless
-    # actual name colission happens
-    # we replicate this logic in the same traversal order as
-    # in linking lib jars
-    already_linked_files = set()
-
     for l in definitions_library:
         print(f'- {l.source_path}/DEER: library_jar({l.name},...')
-        filename = f'{l.maven_coords.filename()}'
-
-        full_path = filename
-        if filename in already_linked_files:
-            full_path = f'{l.maven_coords.group}.{filename}'
-        already_linked_files.add(full_path)
 
         xml_path = f'lib_{l.name}.xml'
         library_xml = libraries_dir/xml_path
@@ -318,8 +298,8 @@ def generate_idea_libraries(root_dir: Path):
         if not library_xml.parent.exists():
             library_xml.parent.mkdir(parents=True)
 
-        jar_filename = link_lib + '/' + full_path + jar_suffixes['jar']
-        src_filename = link_lib + '/' + full_path + jar_suffixes['src']
+        jar_filename = link_lib + '/' + l.name + jar_suffixes['jar']
+        src_filename = link_lib + '/' + l.name + jar_suffixes['src']
 
         library_xml.write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
 <component name="libraryTable">
@@ -334,7 +314,6 @@ def generate_idea_libraries(root_dir: Path):
   </library>
 </component>
 ''')
-
         print(f'\t{l.maven_coords} => {ij_libraries}/{xml_path}')
 
 
@@ -429,24 +408,15 @@ def generate_eclipse_project(root_dir: Path, project_name: str):
                     f'<attributes><attribute name="optional" value="true"/></attributes>'
                     f'</classpathentry>']
 
-    entries += ['<classpathentry kind="output" path=".out/ecj/classes"/>']
+    entries += ['<classpathentry kind="output" path=".out/.ecj/classes"/>']
 
     entries += ['<classpathentry kind="con" '
                 'path="org.eclipse.jdt.launching.JRE_CONTAINER/'
                 'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>']
 
-    already_linked_files = set()
-
     for l in definitions_library:
-        filename = f'{l.maven_coords.filename()}'
-
-        full_path = filename
-        if filename in already_linked_files:
-            full_path = f'{l.maven_coords.group}.{filename}'
-        already_linked_files.add(full_path)
-
-        jar_filename = link_lib + '/' + full_path + jar_suffixes['jar']
-        src_filename = link_lib + '/' + full_path + jar_suffixes['src']
+        jar_filename = link_lib + '/' + l.name + jar_suffixes['jar']
+        src_filename = link_lib + '/' + l.name + jar_suffixes['src']
 
         if not l.exclude:
             entries += [f'<classpathentry kind="lib" path="{jar_filename}" sourcepath="{src_filename}"/>']
